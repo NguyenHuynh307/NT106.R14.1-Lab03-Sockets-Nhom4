@@ -1,21 +1,21 @@
 # NT106.R14.1 · Lab 3 · Nhóm 4
 
-Repo thực hành Socket bằng C#. Mỗi bài nằm trong project riêng và được tập hợp bằng solution chung. Hiện repo chỉ có phần câu 4–5 do Huỳnh Thanh Nguyên phụ trách; câu 1, 2, 3, 6 sẽ được thêm bằng Pull Request của thành viên phụ trách.
+Repo thực hành Socket bằng C#. Mỗi bài nằm trong project riêng và được tập hợp bằng solution chung.
 
 ## Phân công
 
-| Thành viên | MSSV | Câu | Nhánh dự kiến |
+| Thành viên | Câu | Nhánh dự kiến |
 |---|---:|---|---|
-| Huỳnh Thanh Nguyên | 25521233 | 4, 5 | `feat/nguyen-bai04-bai05` |
-| Nguyễn Quốc Nhật Minh | 25521123 | 1, 2 | `feat/minh-bai01-bai02` |
-| Hoàng Anh | 25520048 | 3, 6 | `feat/hoang-anh-bai03-bai06` |
+| Huỳnh Thanh Nguyên | 4, 5 | `feat/nguyen-bai04-bai05` |
+| Nguyễn Quốc Nhật Minh | 1, 2 | `feat/minh-bai01-bai02` |
+| Hoàng Anh | 3, 6 | `feat/hoang-anh-bai03-bai06` |
 
 ## Cấu trúc
 
 - `Lab03_Bai04/`: giao diện đặt vé kế thừa Lab 2; TCP server quản lý danh sách `input5.txt` và trạng thái ghế dùng chung.
 - `Lab03_Bai05/`: giao diện “Hôm nay ăn gì?” kế thừa Lab 2; SQLite và ảnh món được quản lý qua server TCP.
 - `NT106.R14.1-Lab03-Sockets-Nhom4.sln`: solution chung của nhóm.
-- `Report/`: báo cáo Lab 3; các câu chưa hoàn tất được đánh dấu chờ thành viên phụ trách bổ sung.
+- `Report/`: báo cáo Lab 3.
 
 ## Build và chạy
 
