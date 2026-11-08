@@ -133,8 +133,7 @@ internal sealed class RemoteFoodClient
 
     private Lab03.Bai05.FoodRpcResponse Send(Lab03.Bai05.FoodRpcRequest request)
     {
-        using var client = new System.Net.Sockets.TcpClient();
-        client.Connect(FoodNetworkOptions.Host, FoodNetworkOptions.Port);
+        using System.Net.Sockets.TcpClient client = Lab03.Bai05.TcpHelper.ConnectWithTimeout(FoodNetworkOptions.Host, FoodNetworkOptions.Port);
         using NetworkStream stream = client.GetStream();
         using var writer = new StreamWriter(stream, new System.Text.UTF8Encoding(false), leaveOpen: true) { AutoFlush = true };
         using var reader = new StreamReader(stream, System.Text.Encoding.UTF8, false, leaveOpen: true);

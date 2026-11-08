@@ -32,7 +32,7 @@ internal sealed class FoodTcpServer : IDisposable
     private long revision;
 
     public FoodTcpServer(int port) => listener = new TcpListener(IPAddress.Any, port);
-    public void Start() { database.Initialize(); listener.Start(); _ = AcceptLoopAsync(); }
+    public void Start() { database.Initialize(); listener.Start(); _ = Task.Run(AcceptLoopAsync); }  // thread pool, không dùng luồng giao diện
     public void Stop() { stopToken.Cancel(); listener.Stop(); }
 
     private async Task AcceptLoopAsync()
@@ -115,16 +115,39 @@ internal sealed class FoodTcpServer : IDisposable
 internal sealed class FoodServerWindow : Form
 {
     private readonly FoodTcpServer server;
+
     public FoodServerWindow(int port)
     {
-        Text = "Bài 5 · TCP Server"; StartPosition = FormStartPosition.CenterParent; ClientSize = new Size(540, 200);
+        AutoScaleDimensions = new SizeF(96F, 96F);
+        AutoScaleMode = AutoScaleMode.Dpi;
+        Font = new Font("Segoe UI", 10F);
+        Text = "Bài 5 · TCP Server";
+        StartPosition = FormStartPosition.CenterScreen;
+        ClientSize = new Size(640, 300);
+        MinimumSize = new Size(560, 260);
+
         server = new FoodTcpServer(port);
+        server.Start();   // nếu cổng bận sẽ ném lỗi để launcher báo cho người dùng
+
+        string lan = "(không đọc được)";
+        try
+        {
+            lan = string.Join("   ", System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList
+                .Where(a => a.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).Select(a => a.ToString()));
+        }
+        catch (System.Net.Sockets.SocketException) { }
+
         Controls.Add(new Label
         {
-            AutoSize = true, Location = new Point(24, 26), Font = new Font("Segoe UI", 13, FontStyle.Bold),
-            Text = "SERVER MÓN ĂN · TCP/" + port + "\r\n\r\nSQLite và ảnh món lưu tại thư mục Data của máy chủ.\r\nCho phép TCP qua Windows Firewall để nhận client trong LAN."
+            Dock = DockStyle.Fill,
+            Padding = new Padding(24),
+            Text = "SERVER MÓN ĂN · TCP/" + port + "\r\n\r\nĐang lắng nghe trên mọi card mạng (0.0.0.0:" + port + ")\r\nClient ở máy khác nhập IP: " + lan + "\r\n\r\nSQLite và ảnh món lưu trong thư mục Data của máy chủ.\r\nCho phép TCP cổng " + port + " qua Windows Firewall (mạng Private)."
         });
-        server.Start();
     }
-    protected override void OnFormClosed(FormClosedEventArgs e) { server.Dispose(); base.OnFormClosed(e); }
+
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        server.Dispose();
+        base.OnFormClosed(e);
+    }
 }

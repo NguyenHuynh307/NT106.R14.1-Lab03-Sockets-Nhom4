@@ -60,8 +60,7 @@ internal static class SeatRemote
 
     private static SeatSnapshot Send(SeatRequest request)
     {
-        using var client = new TcpClient();
-        client.Connect(SeatClientSettings.Host, SeatClientSettings.Port);
+        using TcpClient client = TcpHelper.ConnectWithTimeout(SeatClientSettings.Host, SeatClientSettings.Port);
         using NetworkStream stream = client.GetStream();
         using var writer = new StreamWriter(stream, new UTF8Encoding(false), leaveOpen: true) { AutoFlush = true };
         using var reader = new StreamReader(stream, Encoding.UTF8, false, leaveOpen: true);
@@ -90,7 +89,8 @@ internal sealed class SeatTcpServer : IDisposable
         LoadInput(Path.Combine(AppContext.BaseDirectory, "input5.txt"));
     }
 
-    public void Start() { listener.Start(); _ = AcceptLoopAsync(); }
+    // Task.Run: vòng lặp server chạy trên thread pool, KHÔNG dùng luồng giao diện (nếu không, Client cùng tiến trình chờ Server còn Server chờ luồng giao diện => treo)
+    public void Start() { listener.Start(); _ = Task.Run(AcceptLoopAsync); }
     public void Stop() { cancellation.Cancel(); listener.Stop(); }
 
     private async Task AcceptLoopAsync()
@@ -217,14 +217,39 @@ internal sealed class SeatTcpServer : IDisposable
 internal sealed class SeatServerWindow : Form
 {
     private readonly SeatTcpServer server;
+
     public SeatServerWindow(int port)
     {
-        Text = "Bài 4 · TCP Server"; StartPosition = FormStartPosition.CenterParent; ClientSize = new Size(520, 190);
+        AutoScaleDimensions = new SizeF(96F, 96F);
+        AutoScaleMode = AutoScaleMode.Dpi;
+        Font = new Font("Segoe UI", 10F);
+        Text = "Bài 4 · TCP Server";
+        StartPosition = FormStartPosition.CenterScreen;
+        ClientSize = new Size(640, 300);
+        MinimumSize = new Size(560, 260);
+
         server = new SeatTcpServer(port);
-        var title = new Label { Text = "SERVER ĐẶT VÉ · TCP", Font = new Font("Segoe UI", 14, FontStyle.Bold), AutoSize = true, Location = new Point(24, 24) };
-        var info = new Label { Text = "Đang lắng nghe 0.0.0.0:" + port + "\r\nDanh sách phim nạp từ input5.txt trên máy chủ. Cho phép TCP qua Windows Firewall.", AutoSize = true, Location = new Point(26, 74) };
-        Controls.AddRange(new Control[] { title, info });
-        server.Start();
+        server.Start();   // nếu cổng bận sẽ ném lỗi để launcher báo cho người dùng
+
+        string lan = "(không đọc được)";
+        try
+        {
+            lan = string.Join("   ", System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList
+                .Where(a => a.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).Select(a => a.ToString()));
+        }
+        catch (System.Net.Sockets.SocketException) { }
+
+        Controls.Add(new Label
+        {
+            Dock = DockStyle.Fill,
+            Padding = new Padding(24),
+            Text = "SERVER ĐẶT VÉ · TCP/" + port + "\r\n\r\nĐang lắng nghe trên mọi card mạng (0.0.0.0:" + port + ")\r\nClient ở máy khác nhập IP: " + lan + "\r\n\r\nDanh sách phim nạp từ input5.txt trên máy chủ.\r\nCho phép TCP cổng " + port + " qua Windows Firewall (mạng Private)."
+        });
     }
-    protected override void OnFormClosed(FormClosedEventArgs e) { server.Dispose(); base.OnFormClosed(e); }
+
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        server.Dispose();
+        base.OnFormClosed(e);
+    }
 }
