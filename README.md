@@ -1,4 +1,4 @@
-# NT106.R14.1 · Lab 3: Lập trình Socket trong C#
+﻿# NT106.R14.1 · Lab 3: Lập trình Socket trong C#
 
 Repo lưu mã nguồn thực hành Lab 3 của Nhóm 5. Sáu bài được tách thành project riêng; solution và menu chung giúp mở từng bài để chạy hoặc trình bày.
 
@@ -15,7 +15,7 @@ Repo lưu mã nguồn thực hành Lab 3 của Nhóm 5. Sáu bài được tách
 
 Cần Windows và .NET 10 SDK (workload **.NET Desktop Development** trong Visual Studio).
 
-1. Mở `NT106.R14.1-Lab03-Sockets-Nhom4.sln`.
+1. Mở `NT106.R14.1-Lab03-Sockets-Nhom5.sln`.
 2. Chọn `Lab03_Menu` làm Startup Project.
 3. Chọn **Build > Build Solution**, sau đó nhấn **Ctrl+F5**.
 4. Trong menu, chọn bài cần chạy. Đóng cửa sổ bài hiện tại trước khi mở bài khác nếu hai bài cùng dùng một cổng.

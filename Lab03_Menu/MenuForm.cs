@@ -103,7 +103,7 @@ internal sealed class MenuForm : Form
         };
         Label sub = new Label
         {
-            Text = "NT106.R14.1 · Nhóm 4 · Chọn một bài để mở",
+            Text = "NT106.R14.1 · Nhóm 5 · Chọn một bài để mở",
             AutoSize = true,
             ForeColor = Muted,
             Location = new Point(30, 52)
