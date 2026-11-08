@@ -1,6 +1,6 @@
 # NT106.R14.1 · Lab 3: Lập trình Socket trong C#
 
-Repo lưu mã nguồn thực hành Lab 3 của Nhóm 4. Sáu bài được tách thành project riêng; solution và menu chung giúp mở từng bài để chạy hoặc trình bày.
+Repo lưu mã nguồn thực hành Lab 3 của Nhóm 5. Sáu bài được tách thành project riêng; solution và menu chung giúp mở từng bài để chạy hoặc trình bày.
 
 ## Nội dung
 
