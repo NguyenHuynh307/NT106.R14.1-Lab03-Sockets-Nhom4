@@ -26,7 +26,7 @@
             WindowState = FormWindowState.Maximized;
             Name = "Lab02_Bai06";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Bài 06 - Hôm nay ăn gì?";
+            Text = "Bài 05 - Hôm nay ăn gì?";
             Load += Lab02_Bai06_Load;
             ResumeLayout(false);
         }

@@ -1,4 +1,4 @@
-namespace Lab02
+﻿namespace Lab02
 {
     partial class Lab02_Bai05
     {
@@ -93,7 +93,7 @@ namespace Lab02
             pnlHeader.Controls.Add(btnReset);
             pnlHeader.Controls.Add(btnExit);
             pnlHeader.Subtitle = "Đọc input5.txt, đặt vé, thống kê doanh thu, xuất output5.txt";
-            pnlHeader.Title = "Bài 05 - Quản Lý Phòng Vé";
+            pnlHeader.Title = "Bài 04 - Quản Lý Phòng Vé";
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Name = "pnlHeader";
             pnlHeader.Size = new Size(1240, 96);
@@ -804,7 +804,7 @@ namespace Lab02
             MinimumSize = new Size(1120, 720);
             Name = "Lab02_Bai05";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Bài 05 - Quản lý phòng vé";
+            Text = "Bài 04 - Quản lý phòng vé";
             ((System.ComponentModel.ISupportInitialize)dgvMovies).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvStats).EndInit();
             ResumeLayout(false);

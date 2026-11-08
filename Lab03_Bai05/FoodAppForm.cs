@@ -147,7 +147,7 @@ namespace Lab02
             {
                 Dock = DockStyle.Top,
                 Height = U(132),
-                Title = "Bài 06 · Hôm Nay Ăn Gì?",
+                Title = "Bài 05 · Hôm Nay Ăn Gì?",
                 Subtitle = "SQLite · MonAn / NguoiDung · quay ngẫu nhiên món ngon theo từng buổi"
             };
             hero.AddAction("BẾP TRƯỞNG  ✦", true, () => ApplyMode(!chefMode, true));
@@ -172,7 +172,7 @@ namespace Lab02
                 basicRoot.Visible = !chef;
                 chefRoot.Visible = chef;
                 hero.Style = chef ? B6Hero.Look.Chef : B6Hero.Look.Street;
-                hero.Title = chef ? "Bếp Trưởng · Gợi Ý Theo Giờ" : "Bài 06 · Hôm Nay Ăn Gì?";
+                hero.Title = chef ? "Bếp Trưởng · Gợi Ý Theo Giờ" : "Bài 05 · Hôm Nay Ăn Gì?";
                 hero.Subtitle = chef
                     ? "Lắc quẻ · quán gần bạn · thực đơn 1.000+ món · yêu thích & thống kê"
                     : "SQLite · MonAn / NguoiDung · quay ngẫu nhiên món ngon theo từng buổi";
@@ -2499,8 +2499,8 @@ namespace Lab02
             string defaultPath = Path.Combine(AppContext.BaseDirectory, Input6FileName);
             using (OpenFileDialog dialog = new OpenFileDialog())
             {
-                dialog.Title = "Nhập dữ liệu Bài 06 từ input6.txt";
-                dialog.Filter = "Dữ liệu Bài 06|input6.txt;*.txt|Tất cả tệp|*.*";
+                dialog.Title = "Nhập dữ liệu Bài 05 từ input6.txt";
+                dialog.Filter = "Dữ liệu Bài 05|input6.txt;*.txt|Tất cả tệp|*.*";
                 dialog.FileName = File.Exists(defaultPath) ? Input6FileName : string.Empty;
                 if (File.Exists(defaultPath))
                 {
@@ -2847,7 +2847,7 @@ namespace Lab02
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Không mở được liên kết:\n" + url + "\n\n" + ex.Message, "Bài 06", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Không mở được liên kết:\n" + url + "\n\n" + ex.Message, "Bài 05", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

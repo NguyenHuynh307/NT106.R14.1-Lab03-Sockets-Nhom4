@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
@@ -131,6 +131,15 @@ internal sealed class SeatTcpServer : IDisposable
         }
     }
 
+    /// <summary>Client gửi tên phòng dạng "Phòng 3"; lấy số phòng từ chuỗi đó (chấp nhận cả "3").</summary>
+    private static int ParseRoomNumber(string room)
+    {
+        var match = System.Text.RegularExpressions.Regex.Match(room ?? string.Empty, "[0-9]+");
+        if (!match.Success || !int.TryParse(match.Value, NumberStyles.None, CultureInfo.InvariantCulture, out int number))
+            throw new InvalidOperationException("Phòng chiếu không hợp lệ: " + room);
+        return number;
+    }
+
     private SeatSnapshot Apply(SeatRequest request)
     {
         switch (request.Action)
@@ -150,7 +159,7 @@ internal sealed class SeatTcpServer : IDisposable
                 if (request.Movie == null || request.Room == null || request.Showtime == null || request.Seats == null || request.Seats.Count == 0)
                     throw new InvalidOperationException("Thông tin đặt vé chưa đầy đủ.");
                 SeatMovie? selected = movies.FirstOrDefault(m => string.Equals(m.Name, request.Movie, StringComparison.OrdinalIgnoreCase));
-                if (selected == null || !selected.Rooms.Contains(int.Parse(request.Room, CultureInfo.InvariantCulture))) throw new InvalidOperationException("Phim hoặc phòng chiếu không còn trong danh sách server.");
+                if (selected == null || !selected.Rooms.Contains(ParseRoomNumber(request.Room))) throw new InvalidOperationException("Phim hoặc phòng chiếu không còn trong danh sách server.");
                 var keys = request.Seats.Select(code => request.Movie + "|" + request.Room + "|" + request.Showtime + "|" + code).ToList();
                 if (request.Seats.Any(code => !System.Text.RegularExpressions.Regex.IsMatch(code, "^[A-C][1-5]$"))) throw new InvalidOperationException("Mã ghế không hợp lệ.");
                 if (keys.Distinct(StringComparer.OrdinalIgnoreCase).Count() != keys.Count) throw new InvalidOperationException("Danh sách ghế có phần tử trùng.");
